@@ -6,10 +6,12 @@ It gets to 75% validation accuracy in 25 epochs, and 79% after 50 epochs.
 
 
 #todo
-#1. run train/test script
-#2. make checkpoint
-#3. use different data (medical data / e-commerce data)
-#4. augmentation(option)
+#1. run train/test script (done)
+#2. make checkpoint (done)
+#3. use different data (medical data / e-commerce data)  (not yet)
+#4. augmentation(optionionl)
+#5. visualization (not yet)
+#6. one image test ( https://www.pyimagesearch.com/2017/12/11/image-classification-with-keras-and-deep-learning/ )
 
 
 #ref
@@ -25,11 +27,12 @@ from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras.callbacks import ModelCheckpoint
 
+import matplotlib.pyplot as plt
 import os
 
 batch_size = 32
 num_classes = 10
-epochs = 100
+epochs = 5  # adjust to show history with ease
 data_augmentation = False
 num_predictions = 20
 save_dir = os.path.join(os.getcwd(), 'saved_models')
@@ -115,7 +118,7 @@ callbacks_list = [checkpoint]
 
 if not data_augmentation:
     print('Not using data augmentation.')
-    model.fit(x_train, y_train,
+    hist = model.fit(x_train, y_train,
               batch_size=batch_size,
               epochs=epochs,
               validation_data=(x_test, y_test),
@@ -159,12 +162,17 @@ else:
 
 
 
-    model.fit_generator(datagen.flow(x_train, y_train,
+    hist = model.fit_generator(datagen.flow(x_train, y_train,
                                      batch_size=batch_size),
                         epochs=epochs,
                         validation_data=(x_test, y_test),
                         workers=4,
                         callbacks=callbacks_list)
+
+
+plt.plot(hist.history["acc"])
+plt.plot(hist.history["val_acc"])
+plt.show()
 
 
 # Save model and weights
@@ -178,6 +186,7 @@ print('Saved trained model at %s ' % model_path)
 scores = model.evaluate(x_test, y_test, verbose=1)
 print('Test loss:', scores[0])
 print('Test accuracy:', scores[1])
+
 
 
 
