@@ -37,11 +37,6 @@ model_name = 'keras_cifar10_trained_model.h5'
 checkpoint_dir = './checkpoint/'
 
 
-#체크포인트 폴더가 존재하지 않으면 생성한다.
-if not os.path.isdir(checkpoint_dir):
-    os.makedirs(checkpoint_dir)
-
-
 # The data, split between train and test sets:
 (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 print('x_train shape:', x_train.shape)
@@ -101,6 +96,11 @@ x_test /= 255
 
     steps_per epoch is only exsits in fit_generator
  '''
+
+#체크포인트 폴더가 존재하지 않으면 생성한다.
+if not os.path.isdir(checkpoint_dir):
+    os.makedirs(checkpoint_dir)
+
 
 #성능이 개선될 때 마다 저장
 model_path = checkpoint_dir+  '{epoch:02d}-{val_acc:.4f}.hdf5'
