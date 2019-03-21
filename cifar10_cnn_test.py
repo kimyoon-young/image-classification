@@ -21,15 +21,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report, confusion_matrix
 from vis import plot_confusion_matrix  as conf_mat
-from vis import show_images
+#from vis import show_images
 
 
-
-# ipmort 모듈
-# form 모듈 ipmort 변수나 함수
-
-# from
-# import
 
 
 batch_size = 32
@@ -80,10 +74,8 @@ model.add(Dense(num_classes))
 model.add(Activation('softmax'))
 
 
-#model_path = os.path.join(save_dir, model_name)
-#model.load_model(model_path)
-#model = tf.train.latest_checkpoint(checkpoint_dir)
-model.load_weights(checkpoint_dir + '03-0.5411.hdf5')
+
+model.load_weights(checkpoint_dir + '05-0.5894.hdf5')
 print('loaded trained model at %s ' % checkpoint_dir)
 
 
@@ -102,32 +94,19 @@ x_train /= 255
 x_test /= 255
 
 
-# Score trained model.
-#scores = model.evaluate(x_test, y_test, verbose=1)
-#print('Test loss:', scores[0])
-#print('Test accuracy:', scores[1])
-
 
 
 #Confution Matrix and Classification Report
+
+#y_pred = np.argmax(Y_pred, axis=1)
+
+
+#print('Classification Report')
+#print(classification_report(y_test_list, y_pred))
+
+
 Y_pred = model.predict(x_test, verbose=1)
-y_pred = np.argmax(Y_pred, axis=1)
-print('Confusion Matrix')
-
-# labels=["ant", "bird", "cat"]
-# 순서
-
-print(confusion_matrix(y_test_list, y_pred))
-
-print('Classification Report')
-print(classification_report(y_test_list, y_pred))
-
-
-
-
-
 class_names = ['Airplane', 'Automobile', 'Bird', 'Cat', 'Deer', 'Dog', 'Frog', 'Horse', 'Ship', 'Truck']
-
 np_class = np.asarray(class_names)
 
 # Plot normalized confusion matrix
@@ -137,8 +116,6 @@ conf_mat.plot_confusion_matrix(y_test_list, y_pred, classes=np_class, normalize=
 
 conf_mat.plot_confusion_matrix(y_test_list, y_pred, classes=np_class, normalize=False,
                       title='confusion matrix')
-
-
 
 
 plt.show()

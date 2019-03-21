@@ -6,12 +6,9 @@ It gets to 75% validation accuracy in 25 epochs, and 79% after 50 epochs.
 
 
 #todo
-#1. run train/test script (done)
+#1. separate train and test code (done)
 #2. make checkpoint (done)
-#3. use different data (medical data / e-commerce data)  (not yet)
-#4. augmentation(optionionl)
-#5. visualization (not yet)
-#6. one image test ( https://www.pyimagesearch.com/2017/12/11/image-classification-with-keras-and-deep-learning/ )
+#3. visualization (done)
 
 
 #ref
@@ -40,6 +37,7 @@ model_name = 'keras_cifar10_trained_model.h5'
 checkpoint_dir = './checkpoint/'
 
 
+#체크포인트 폴더가 존재하지 않으면 생성한다.
 if not os.path.isdir(checkpoint_dir):
     os.makedirs(checkpoint_dir)
 
@@ -104,10 +102,10 @@ x_test /= 255
     steps_per epoch is only exsits in fit_generator
  '''
 
-#multiple models
+#성능이 개선될 때 마다 저장
 model_path = checkpoint_dir+  '{epoch:02d}-{val_acc:.4f}.hdf5'
 
-#only best model
+#최고 성능 한개만 저장
 #model_path = checkpoint_dir+ 'best_model.hdf5'
 
 
@@ -189,29 +187,3 @@ print('Test accuracy:', scores[1])
 
 
 
-
-
-
-'''
-tensorboard
-# Callbacks 
-		# remote_cb = RemoteMonitor(root='http://localhost:9000')
-		tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
-		epoch_cb    = EpochCheckpoint(folder="./snapshots/")
-		valid_cb	= ValidCallBack()
-
-		# fit generator
-		steps_per_epoch = math.ceil(_num_train/float(BATCH))
-		print "Steps per epoch i.e number of iterations: ",steps_per_epoch
-		
-		train_datagen = data_generator(batch_size=INCORRECT_BATCH, image_class_ranges=TRAINING_CLASS_RANGES)
-		history = model.fit_generator(
-				train_datagen,
-				steps_per_epoch=steps_per_epoch,
-				epochs=250,
-				callbacks=[tensorboard, valid_cb]
-			)
-		print history.history.keys()
-		
-		
-		'''
