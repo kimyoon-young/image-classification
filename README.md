@@ -1,4 +1,4 @@
-# cifar-10 example(in progress)
+# cifar-10 image classification with confusion matrix
 
 
 ## Install
